@@ -21,4 +21,12 @@ extension Post {
         content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         authorName: "Jamie Harris"
     )
+    
+    func contains(_ string: String) -> Bool {
+        let properties = [title, content, authorName].map { $0.lowercased()
+        }
+        let query = string.lowercased()
+        let matches = properties.filter { $0.contains(query) }
+        return !matches.isEmpty
+    }
 }
