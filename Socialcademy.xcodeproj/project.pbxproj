@@ -15,9 +15,22 @@
 		3A7499212F5BDBEA00F5D2EB /* Socialcademy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Socialcademy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		3ABA0AA82F673698009E43DF /* Exceptions for "Socialcademy" folder in "Copy Bundle Resources" phase from "Socialcademy" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 3A74991F2F5BDBEA00F5D2EB /* Resources */;
+			membershipExceptions = (
+				Views/NewPostForm.swift,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		3A7499232F5BDBEA00F5D2EB /* Socialcademy */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				3ABA0AA82F673698009E43DF /* Exceptions for "Socialcademy" folder in "Copy Bundle Resources" phase from "Socialcademy" target */,
+			);
 			path = Socialcademy;
 			sourceTree = "<group>";
 		};
