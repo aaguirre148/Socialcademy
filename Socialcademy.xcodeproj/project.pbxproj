@@ -34,11 +34,6 @@
 			path = Socialcademy;
 			sourceTree = "<group>";
 		};
-		3A7499382F5F71F400F5D2EB /* Models */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Models;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +52,6 @@
 		3A7499182F5BDBEA00F5D2EB = {
 			isa = PBXGroup;
 			children = (
-				3A7499382F5F71F400F5D2EB /* Models */,
 				3A7499232F5BDBEA00F5D2EB /* Socialcademy */,
 				3A7499222F5BDBEA00F5D2EB /* Products */,
 			);
@@ -88,7 +82,6 @@
 			);
 			fileSystemSynchronizedGroups = (
 				3A7499232F5BDBEA00F5D2EB /* Socialcademy */,
-				3A7499382F5F71F400F5D2EB /* Models */,
 			);
 			name = Socialcademy;
 			packageProductDependencies = (
