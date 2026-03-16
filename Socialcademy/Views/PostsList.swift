@@ -15,12 +15,33 @@ struct PostsList: View {
     
     var body: some View {
         NavigationView {
-            List(viewModel.posts) { post in
-                if searchText.isEmpty || post.contains(searchText) { //si se hace la búsqueda se muestra la vista completa.
-                    PostRow(post: post)
+            Group {
+                switch viewModel.posts {
+                case .loading:
+                    ProgressView()
+                case let .error(error):
+                    EmptyListView(
+                        title: "Cannot Load Posts",
+                        message: error.localizedDescription,
+                        retryAction: {
+                            viewModel.fetchPosts()
+                        }
+                    )
+                case .empty:
+                    EmptyListView(
+                        title: "No Posts",
+                        message: "There aren’t any posts yet."
+                    )
+                case let .loaded(posts):
+                    List(posts) { post in
+                        if searchText.isEmpty || post.contains(searchText) { //si se hace la búsqueda se muestra la vista completa.
+                            PostRow(post: post)
+                        }
+                    }
+                    .searchable(text: $searchText)
                 }
+                
             }
-            .searchable(text: $searchText)
             .navigationTitle("Posts")
             
             .toolbar {
@@ -31,6 +52,10 @@ struct PostsList: View {
                 }
             }
         }
+        .onAppear {
+                viewModel.fetchPosts()
+            }
+        
         .sheet(isPresented: $showNewPostForm) {
             NewPostForm(createAction: viewModel.makeCreateAction())
         }
