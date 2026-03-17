@@ -9,21 +9,39 @@ import Foundation
 import FirebaseFirestore
 //import FirebaseFirestoreSwift
 
-struct PostsRepository {
-    static let postsReference = Firestore.firestore().collection("posts")
+protocol PostsRepositoryProtocol {
+    func fetchPosts() async throws -> [Post]
+    func create(_ post: Post) async throws
+}
+
+#if DEBUG
+struct PostsRepositoryStub: PostsRepositoryProtocol {
+    let state: Loadable<[Post]>
     
-    static func create(_ post: Post) async throws {
-        let document = postsReference.document(post.id.uuidString)
-        try await document.setData(from: post)
+    func fetchPosts() async throws -> [Post] {
+        return try await state.simulate()
     }
+    
+    func create(_ post: Post) async throws {}
+}
+#endif
+
+struct PostsRepository: PostsRepositoryProtocol {
+    let postsReference = Firestore.firestore().collection("posts")
+    
     //This method fetches documents from the posts collection in reverse-chronological order, and returns them as an array of Post instances.
-    static func fetchPosts() async throws -> [Post] {
+    func fetchPosts() async throws -> [Post] {
         let snapshot = try await postsReference //Request documents in descending order
             .order(by: "timestamp", descending: true)
             .getDocuments()
         return snapshot.documents.compactMap { document in //used to convert each document to a post filering nil values
             try! document.data(as: Post.self)
         }
+    }
+    
+    func create(_ post: Post) async throws {
+        let document = postsReference.document(post.id.uuidString)
+        try await document.setData(from: post)
     }
 }
 
