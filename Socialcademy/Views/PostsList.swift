@@ -35,7 +35,7 @@ struct PostsList: View {
                 case let .loaded(posts):
                     List(posts) { post in
                         if searchText.isEmpty || post.contains(searchText) { //si se hace la búsqueda se muestra la vista completa.
-                            PostRow(post: post)
+                            PostRow(post: post, deleteAction: viewModel.makeDeleteAction(for: post))
                         }
                     }
                     .searchable(text: $searchText)

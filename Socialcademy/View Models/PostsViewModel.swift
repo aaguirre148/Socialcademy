@@ -33,15 +33,11 @@ class PostsViewModel: ObservableObject {
             }
         }
     }
-}
-
-/*#if DEBUG
-struct PostsRepositoryStub: PostsRepositoryProtocol {
-    func fetchPosts() async throws -> [Post] {
-        return []
-    }
     
-    func create(_ post: Post) async throws {}
+    func makeDeleteAction(for post: Post) -> PostRow.DeleteAction {
+        return { [weak self] in
+            try await self?.postsRepository.delete(post)
+            self?.posts.value?.removeAll { $0.id == post.id }
+        }
+    }
 }
-#endif
-*/
