@@ -38,6 +38,7 @@ struct PostsList: View {
                             PostRow(post: post, deleteAction: viewModel.makeDeleteAction(for: post))
                         }
                     }
+                    .animation(.default, value: posts)
                     .searchable(text: $searchText)
                 }
                 
