@@ -41,7 +41,7 @@ struct PostsRepositoryStub: PostsRepositoryProtocol {
 #endif
 
 struct PostsRepository: PostsRepositoryProtocol {
-    let postsReference = Firestore.firestore().collection("posts_v1")
+    let postsReference = Firestore.firestore().collection("posts")
     
     //This is a private function that is common for the fetchAllPosts and fetchFavoritePosts
     private func fetchPosts(from query: Query) async throws -> [Post] {
