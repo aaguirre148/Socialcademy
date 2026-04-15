@@ -11,6 +11,7 @@ struct Post: Identifiable, Equatable, Codable {
     var title: String
     var content: String
     var authorName: String
+    var isFavorite = false
     let timestamp: Date = Date()
     let id: UUID = UUID()
 }

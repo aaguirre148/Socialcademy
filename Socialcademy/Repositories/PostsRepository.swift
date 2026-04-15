@@ -13,6 +13,8 @@ protocol PostsRepositoryProtocol {
     func fetchPosts() async throws -> [Post]
     func create(_ post: Post) async throws
     func delete(_ post: Post) async throws
+    func favorite(_ post: Post) async throws
+    func unfavorite(_ post: Post) async throws
 }
 
 #if DEBUG
@@ -26,11 +28,15 @@ struct PostsRepositoryStub: PostsRepositoryProtocol {
     func create(_ post: Post) async throws {}
     
     func delete(_ post: Post) async throws {}
+    
+    func favorite(_ post: Post) async throws {}
+        
+    func unfavorite(_ post: Post) async throws {}
 }
 #endif
 
 struct PostsRepository: PostsRepositoryProtocol {
-    let postsReference = Firestore.firestore().collection("posts")
+    let postsReference = Firestore.firestore().collection("posts_v1")
     
     //This method fetches documents from the posts collection in reverse-chronological order, and returns them as an array of Post instances.
     func fetchPosts() async throws -> [Post] {
@@ -50,6 +56,16 @@ struct PostsRepository: PostsRepositoryProtocol {
     func delete(_ post: Post) async throws {
         let document = postsReference.document(post.id.uuidString)
         try await document.delete()
+    }
+    
+    func favorite(_ post: Post) async throws {
+        let document = postsReference.document(post.id.uuidString)
+        try await document.setData(["isFavorite": true], merge: true)
+    }
+    
+    func unfavorite(_ post: Post) async throws {
+        let document = postsReference.document(post.id.uuidString)
+        try await document.setData(["isFavorite": false], merge: true)
     }
 }
 
