@@ -43,7 +43,7 @@ struct PostsList: View {
                 }
                 
             }
-            .navigationTitle("Posts")
+            .navigationTitle(viewModel.title)
             
             .toolbar {
                 Button {
