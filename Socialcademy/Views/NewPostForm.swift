@@ -20,17 +20,14 @@ struct NewPostForm: View {
     var body: some View {
         NavigationView {
             Form {
-                
                 Section {
                     TextField("Title", text: $post.title)
                     TextField("Author Name", text: $post.authorName)
                 }
-                
                 Section("Content") {
                     TextEditor(text: $post.content)
                         .multilineTextAlignment(.leading)
                 }
-                
                 Button(action: createPost) {
                     if state == .working {
                         ProgressView()
@@ -43,7 +40,6 @@ struct NewPostForm: View {
                 .foregroundColor(.white)
                 .padding()
                 .listRowBackground(Color.accentColor)
-                
             }
             .onSubmit(createPost)
             .navigationTitle("New Post")
