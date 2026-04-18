@@ -32,6 +32,7 @@ private extension AuthView {
             Form {
                 TextField("Email", text: $viewModel.email)
                     .textContentType(.emailAddress)
+                    .textInputAutocapitalization(.never)
                 SecureField("Password", text: $viewModel.password)
                     .textContentType(.password)
             } footer: {
