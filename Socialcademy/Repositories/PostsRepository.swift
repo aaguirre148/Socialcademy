@@ -16,10 +16,12 @@ protocol PostsRepositoryProtocol {
     func delete(_ post: Post) async throws
     func favorite(_ post: Post) async throws
     func unfavorite(_ post: Post) async throws
+    var user: User { get }
 }
 
 #if DEBUG
 struct PostsRepositoryStub: PostsRepositoryProtocol {
+    var user = User.testUser
     let state: Loadable<[Post]>
     
     func fetchAllPosts() async throws -> [Post] {
@@ -41,7 +43,8 @@ struct PostsRepositoryStub: PostsRepositoryProtocol {
 #endif
 
 struct PostsRepository: PostsRepositoryProtocol {
-    let postsReference = Firestore.firestore().collection("posts")
+    let user: User
+    let postsReference = Firestore.firestore().collection("posts_v2")
     
     //This is a private function that is common for the fetchAllPosts and fetchFavoritePosts
     private func fetchPosts(from query: Query) async throws -> [Post] {
