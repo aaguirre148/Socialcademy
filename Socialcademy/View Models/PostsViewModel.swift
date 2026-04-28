@@ -17,6 +17,8 @@ class PostsViewModel: ObservableObject {
         switch filter {
         case .all:
             return "Posts"
+        case let .author(author):
+                return "\(author.name)’s Posts"
         case .favorites:
             return "Favorites"
         }
@@ -28,14 +30,7 @@ class PostsViewModel: ObservableObject {
     }
     
     enum Filter {
-        case all, favorites
-    }
-    
-    func makeCreateAction() -> NewPostForm.CreateAction {
-        return { [weak self] post in
-            try await self?.postsRepository.create(post)
-            self?.posts.value?.insert(post, at: 0)
-        }
+        case all, author(User), favorites
     }
     
     func fetchPosts() {
@@ -64,6 +59,16 @@ class PostsViewModel: ObservableObject {
             }
         )
     }
+    
+    func makeNewPostViewModel() -> FormViewModel<Post> {
+        return FormViewModel(
+            initialValue: Post(title: "", content: "", author: postsRepository.user),
+            action: { [weak self] post in
+                try await self?.postsRepository.create(post)
+                self?.posts.value?.insert(post, at: 0)
+            }
+        )
+    }
 }
 
 private extension PostsRepositoryProtocol {
@@ -71,6 +76,8 @@ private extension PostsRepositoryProtocol {
         switch filter {
         case .all:
             return try await fetchAllPosts()
+        case let .author(author):
+                return try await fetchPosts(by: author)
         case .favorites:
             return try await fetchFavoritePosts()
         }

@@ -17,6 +17,7 @@ protocol PostsRepositoryProtocol {
     func favorite(_ post: Post) async throws
     func unfavorite(_ post: Post) async throws
     var user: User { get }
+    func fetchPosts(by author: User) async throws -> [Post]
 }
 
 #if DEBUG
@@ -39,6 +40,10 @@ struct PostsRepositoryStub: PostsRepositoryProtocol {
     func favorite(_ post: Post) async throws {}
         
     func unfavorite(_ post: Post) async throws {}
+    
+    func fetchPosts(by author: User) async throws -> [Post] {
+        return try await state.simulate()
+    }
 }
 #endif
 
@@ -82,6 +87,10 @@ struct PostsRepository: PostsRepositoryProtocol {
     func unfavorite(_ post: Post) async throws {
         let document = postsReference.document(post.id.uuidString)
         try await document.setData(["isFavorite": false], merge: true)
+    }
+    //Method to fetch post by a given author
+    func fetchPosts(by author: User) async throws -> [Post] {
+        return try await fetchPosts(from: postsReference.whereField("author.id", isEqualTo: author.id))
     }
 }
 
