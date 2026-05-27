@@ -8,10 +8,6 @@
 import SwiftUI
 
 struct NewPostForm: View {
-    
-    //typealias CreateAction = (Post) async throws -> Void
-    //let createAction: CreateAction
-    
     @StateObject var viewModel: FormViewModel<Post>
     
     @Environment(\.dismiss) private var dismiss
@@ -42,9 +38,8 @@ struct NewPostForm: View {
             .onSubmit(viewModel.submit)
             .navigationTitle("New Post")
         }
-        .disabled(viewModel.isWorking)
         .alert("Cannot Create Post", error: $viewModel.error)
-        
+        .disabled(viewModel.isWorking)
         .onChange(of: viewModel.isWorking) { isWorking in
             guard !isWorking, viewModel.error == nil else { return }
             dismiss()

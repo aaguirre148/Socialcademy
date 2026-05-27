@@ -8,11 +8,11 @@ import SwiftUI
 
 extension View {
     func alert(_ title: String, error: Binding<Error?>) -> some View {
-        modifier(ErrorAlertViewModifier(title: title, error: error))
+        modifier(AlertViewModifier(title: title, error: error))
     }
 }
 
-private struct ErrorAlertViewModifier: ViewModifier {
+private struct AlertViewModifier: ViewModifier {
     let title: String
     @Binding var error: Error?
     
@@ -31,13 +31,11 @@ private extension Optional {
     }
 }
 
-struct ErrorAlertViewModifier_Previews: PreviewProvider {
+struct AlertViewModifier_Previews: PreviewProvider {
+    private static let error = NSError(domain: "PreviewError", code: 0, userInfo: nil)
+    
     static var previews: some View {
         Text("Preview")
-            .alert("Error", error: .constant(PreviewError()))
-    }
-    
-    private struct PreviewError: LocalizedError {
-        let errorDescription: String? = "Lorem ipsum dolor set amet."
+            .alert("Error", error: .constant(error))
     }
 }

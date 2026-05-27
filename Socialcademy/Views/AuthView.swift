@@ -11,7 +11,6 @@ struct AuthView: View {
     @StateObject var viewModel = AuthViewModel()
     
     var body: some View {
-        //if viewModel.user != nil
         if let user = viewModel.user {
             MainTabView()
                 .environmentObject(ViewModelFactory(user: user))

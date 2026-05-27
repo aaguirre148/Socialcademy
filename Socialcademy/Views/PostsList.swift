@@ -38,26 +38,38 @@ struct PostsList: View {
                             PostRow(viewModel: viewModel.makePostRowViewModel(for: post))
                         }
                     }
+                    .animation(.default, value: posts)
+                    .searchable(text: $searchText)
                 }
-                .animation(.default, value: posts)
-                .searchable(text: $searchText)
             }
             
         }
-            .navigationTitle(viewModel.title)
-            .onAppear {
-                    viewModel.fetchPosts()
-                }
-            .sheet(isPresented: $showNewPostForm) {
-                NewPostForm(viewModel: viewModel.makeNewPostViewModel())
+        .navigationTitle(viewModel.title)
+        .onAppear {
+            viewModel.fetchPosts()
+        }
+        .sheet(isPresented: $showNewPostForm) {
+            NewPostForm(viewModel: viewModel.makeNewPostViewModel())
+        }
+        .toolbar {
+            Button {
+                showNewPostForm = true
+            } label: {
+                Label("New Post", systemImage: "square.and.pencil")
             }
-            .toolbar {
-                Button {
-                    showNewPostForm = true
-                } label: {
-                    Label("New Post", systemImage: "square.and.pencil")
-                }
+        }
+    }
+}
+
+extension PostsList {
+    struct RootView: View {
+        @StateObject var viewModel: PostsViewModel
+        
+        var body: some View {
+            NavigationView {
+                PostsList(viewModel: viewModel)
             }
+        }
     }
 }
 

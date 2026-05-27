@@ -25,9 +25,9 @@ struct MainTabView: View {
                     Label("Favorites", systemImage: "heart")
                 }
             ProfileView()
-                       .tabItem {
-                           Label("Profile", systemImage: "person")
-                       }
+                    .tabItem {
+                        Label("Profile", systemImage: "person")
+                    }
         }
     }
 }

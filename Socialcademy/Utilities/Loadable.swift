@@ -47,6 +47,12 @@ extension Loadable: Equatable where Value: Equatable {
 
 #if DEBUG
 extension Loadable {
+    static var error: Loadable<Value> { .error(PreviewError()) }
+    
+    private struct PreviewError: LocalizedError {
+        let errorDescription: String? = "Lorem ipsum dolor set amet."
+    }
+    
     func simulate() async throws -> Value {
         switch self {
         case .loading:
@@ -58,12 +64,5 @@ extension Loadable {
             return value
         }
     }
-    
-    static var error: Loadable<Value> { .error(PreviewError()) }
-
-    private struct PreviewError: LocalizedError {
-        let errorDescription: String? = "Lorem ipsum dolor set amet."
-    }
-
 }
 #endif
