@@ -7,11 +7,12 @@
 
 //import Foundation
 @MainActor
-protocol ErrorHandler: AnyObject {
+protocol StateManager: AnyObject {
     var error: Error? { get set }
+    var isWorking: Bool { get set }
 }
 
-extension ErrorHandler {
+extension StateManager {
     func withErrorHandlingTask(perform action: @escaping () async throws -> Void) {
         Task {
             do {
